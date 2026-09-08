@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mitiempo.ui.theme.MiTiempoTheme
+import com.example.mitiempo.viewmodel.TiempoViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -23,14 +25,21 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MiTiempoTheme {
-                WeatherScreen()
+
+                val tiempoViewModel: TiempoViewModel = viewModel()
+
+                WeatherScreen(
+                    viewModel = tiempoViewModel
+                )
             }
         }
     }
 }
 
 @Composable
-fun WeatherScreen() {
+fun WeatherScreen(
+    viewModel: TiempoViewModel
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
