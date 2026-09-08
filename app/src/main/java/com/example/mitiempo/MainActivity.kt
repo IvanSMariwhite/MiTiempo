@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mitiempo.ui.theme.Fondo
 import com.example.mitiempo.ui.theme.MiTiempoTheme
 import com.example.mitiempo.viewmodel.TiempoViewModel
 
@@ -46,32 +48,48 @@ fun WeatherScreen(
 
     val tiempoActual = tiempo
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Text(
-            text = "MiTiempo",
-            style = MaterialTheme.typography.headlineLarge
-        )
 
         if (tiempoActual != null) {
-            Text(
-                text = "Temperatura: ${tiempoActual.current.temperature_2m} °C"
+            Fondo(
+                weatherCode = tiempoActual.current.weather_code,
+                isDay = tiempoActual.current.is_day == 1
             )
+        }
+
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
 
             Text(
-                text = "Código meteorológico: ${tiempoActual.current.weather_code}"
+                text = "MiTiempo",
+                style = MaterialTheme.typography.headlineLarge
             )
 
-            Text(
-                text = "¿Es de día?: ${tiempoActual.current.is_day == 1}"
-            )
-        } else {
-            Text(
-                text = "Cargando tiempo..."
-            )
+            if (tiempoActual != null) {
+
+                Text(
+                    text = "Temperatura: ${tiempoActual.current.temperature_2m} °C"
+                )
+
+                Text(
+                    text = "Código meteorológico: ${tiempoActual.current.weather_code}"
+                )
+
+                Text(
+                    text = "¿Es de día?: ${tiempoActual.current.is_day == 1}"
+                )
+
+            } else {
+
+                Text(
+                    text = "Cargando tiempo..."
+                )
+            }
         }
     }
 }
