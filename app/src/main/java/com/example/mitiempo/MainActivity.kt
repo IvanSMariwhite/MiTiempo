@@ -23,6 +23,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mitiempo.ui.theme.Fondo
 import com.example.mitiempo.ui.theme.MiTiempoTheme
 import com.example.mitiempo.viewmodel.TiempoViewModel
+import com.example.mitiempo.ubicacion.LocationHelper
+import com.example.mitiempo.viewmodel.TiempoViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
@@ -55,8 +57,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             MiTiempoTheme {
 
-                val tiempoViewModel: TiempoViewModel = viewModel()
+                val locationHelper = LocationHelper(this)
 
+                val tiempoViewModel: TiempoViewModel = viewModel(
+                    factory = TiempoViewModelFactory(locationHelper)
+                )
                 WeatherScreen(
                     viewModel = tiempoViewModel
                 )
