@@ -22,8 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mitiempo.ui.theme.Fondo
 import com.example.mitiempo.ui.theme.MiTiempoTheme
-import com.example.mitiempo.viewmodel.TiempoViewModel
 import com.example.mitiempo.ubicacion.LocationHelper
+import com.example.mitiempo.viewmodel.TiempoViewModel
 import com.example.mitiempo.viewmodel.TiempoViewModelFactory
 
 class MainActivity : ComponentActivity() {
@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
                 val tiempoViewModel: TiempoViewModel = viewModel(
                     factory = TiempoViewModelFactory(locationHelper)
                 )
+
                 WeatherScreen(
                     viewModel = tiempoViewModel
                 )
@@ -75,6 +76,7 @@ fun WeatherScreen(
     viewModel: TiempoViewModel
 ) {
     val tiempo by viewModel.tiempoActual.collectAsState()
+    val ubicacion by viewModel.ubicacionActual.collectAsState()
 
     val tiempoActual = tiempo
 
@@ -99,6 +101,30 @@ fun WeatherScreen(
                 text = "MiTiempo",
                 style = MaterialTheme.typography.headlineLarge
             )
+
+            // Mostramos la ciudad y la provincia
+            if (ubicacion != null) {
+
+                val direccion = ubicacion!!.address
+
+                val ciudad = direccion.city
+                    ?: direccion.town
+                    ?: direccion.village
+                    ?: direccion.municipality
+                    ?: "Ubicación desconocida"
+
+                val provincia = direccion.province
+                    ?: direccion.state_district
+                    ?: ""
+
+                Text(
+                    text = if (provincia.isNotEmpty()) {
+                        "$ciudad, $provincia"
+                    } else {
+                        ciudad
+                    }
+                )
+            }
 
             if (tiempoActual != null) {
 

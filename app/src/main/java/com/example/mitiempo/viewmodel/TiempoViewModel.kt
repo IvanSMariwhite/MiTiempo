@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mitiempo.data.model.RespuestaTiempo
+import com.example.mitiempo.data.model.RespuestaUbicacion
 import com.example.mitiempo.data.repository.TiempoRepository
 import com.example.mitiempo.ubicacion.LocationHelper
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +20,9 @@ class TiempoViewModel(
 
     private val _tiempoActual = MutableStateFlow<RespuestaTiempo?>(null)
     val tiempoActual = _tiempoActual.asStateFlow()
+
+    private val _ubicacionActual = MutableStateFlow<RespuestaUbicacion?>(null)
+    val ubicacionActual = _ubicacionActual.asStateFlow()
 
     init {
         Log.d("MiTiempo", "ViewModel iniciado")
@@ -38,28 +42,76 @@ class TiempoViewModel(
 
                 if (ubicacion != null) {
 
+                    val latitud = ubicacion.latitude
+                    val longitud = ubicacion.longitude
+
                     Log.d(
                         "MiTiempo",
-                        "Ubicación obtenida: " +
-                                "lat=${ubicacion.latitude}, " +
-                                "lon=${ubicacion.longitude}"
+                        "Ubicación obtenida: lat=$latitud, lon=$longitud"
                     )
 
                     Log.d(
                         "MiTiempo",
-                        "Llamando al Repository..."
+                        "Llamando al Repository para obtener el tiempo..."
                     )
 
-                    val respuesta = repository.obtenerTiempo(
-                        latitud = ubicacion.latitude,
-                        longitud = ubicacion.longitude
+                    val respuestaTiempo = repository.obtenerTiempo(
+                        latitud = latitud,
+                        longitud = longitud
                     )
 
-                    _tiempoActual.value = respuesta
+                    _tiempoActual.value = respuestaTiempo
 
                     Log.d(
                         "MiTiempo",
-                        "Respuesta recibida: $respuesta"
+                        "Respuesta del tiempo recibida: $respuestaTiempo"
+                    )
+
+                    Log.d(
+                        "MiTiempo",
+                        "Obteniendo ciudad y provincia..."
+                    )
+
+                    val respuestaUbicacion = repository.obtenerUbicacion(
+                        latitud = latitud,
+                        longitud = longitud
+                    )
+
+                    _ubicacionActual.value = respuestaUbicacion
+
+                    Log.d(
+                        "MiTiempo",
+                        "Respuesta de ubicación recibida: $respuestaUbicacion"
+                    )
+
+                    Log.d(
+                        "MiTiempo",
+                        "Ciudad: ${respuestaUbicacion.address.city}"
+                    )
+
+                    Log.d(
+                        "MiTiempo",
+                        "Pueblo: ${respuestaUbicacion.address.town}"
+                    )
+
+                    Log.d(
+                        "MiTiempo",
+                        "Provincia: ${respuestaUbicacion.address.province}"
+                    )
+
+                    Log.d(
+                        "MiTiempo",
+                        "County: ${respuestaUbicacion.address.county}"
+                    )
+
+                    Log.d(
+                        "MiTiempo",
+                        "State district: ${respuestaUbicacion.address.state_district}"
+                    )
+
+                    Log.d(
+                        "MiTiempo",
+                        "Comunidad autónoma: ${respuestaUbicacion.address.state}"
                     )
 
                 } else {
@@ -74,7 +126,7 @@ class TiempoViewModel(
 
                 Log.e(
                     "MiTiempo",
-                    "ERROR al obtener ubicación o tiempo",
+                    "ERROR al obtener ubicación, tiempo o ciudad",
                     e
                 )
             }
