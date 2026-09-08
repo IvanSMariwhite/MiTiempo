@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mitiempo.ui.theme.Fondo
 import com.example.mitiempo.ui.theme.MiTiempoTheme
+import com.example.mitiempo.ui.theme.TiempoIcono
 import com.example.mitiempo.ubicacion.LocationHelper
 import com.example.mitiempo.viewmodel.TiempoViewModel
 import com.example.mitiempo.viewmodel.TiempoViewModelFactory
@@ -101,6 +102,13 @@ fun WeatherScreen(
                 text = "MiTiempo",
                 style = MaterialTheme.typography.headlineLarge
             )
+
+            // Icono meteorológico
+            if (tiempoActual != null) {
+                TiempoIcono(
+                    weatherCode = tiempoActual.current.weather_code
+                )
+            }
 
             // Mostramos la ciudad y la provincia
             if (ubicacion != null) {
