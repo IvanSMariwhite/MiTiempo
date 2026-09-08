@@ -106,7 +106,8 @@ fun WeatherScreen(
             // Icono meteorológico
             if (tiempoActual != null) {
                 TiempoIcono(
-                    weatherCode = tiempoActual.current.weather_code
+                    weatherCode = tiempoActual.current.weather_code,
+                    isDay = tiempoActual.current.is_day == 1
                 )
             }
 

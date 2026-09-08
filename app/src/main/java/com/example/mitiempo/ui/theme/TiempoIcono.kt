@@ -11,7 +11,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TiempoIcono(
-    weatherCode: Int
+    weatherCode: Int,
+    isDay: Boolean
 ) {
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
@@ -22,8 +23,16 @@ fun TiempoIcono(
         .coerceIn(100f, 180f)
         .dp
 
+    val momentoDia = if (isDay) {
+        "dia"
+    } else {
+        "noche"
+    }
+
+    val nombreIcono = "icono_${weatherCode}_${momentoDia}"
+
     val recursoIcono = context.resources.getIdentifier(
-        "icono_$weatherCode",
+        nombreIcono,
         "drawable",
         context.packageName
     )
