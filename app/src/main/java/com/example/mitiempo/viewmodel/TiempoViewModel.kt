@@ -64,6 +64,30 @@ class TiempoViewModel(
 
                     Log.d(
                         "MiTiempo",
+                        "Previsión horaria recibida: " +
+                                "${respuestaTiempo.hourly.time.size} horas"
+                    )
+
+                    for (
+                    i in 0 until minOf(
+                        9,
+                        respuestaTiempo.hourly.time.size
+                    )
+                    ) {
+
+                        Log.d(
+                            "MiTiempo",
+                            "Hora: ${respuestaTiempo.hourly.time[i]} | " +
+                                    "Temp: ${respuestaTiempo.hourly.temperature_2m[i]}°C | " +
+                                    "Humedad: ${respuestaTiempo.hourly.relative_humidity_2m[i]}% | " +
+                                    "Código: ${respuestaTiempo.hourly.weather_code[i]} | " +
+                                    "Viento: ${respuestaTiempo.hourly.wind_speed_10m[i]} km/h | " +
+                                    "Día: ${respuestaTiempo.hourly.is_day[i]}"
+                        )
+                    }
+
+                    Log.d(
+                        "MiTiempo",
                         "Respuesta del tiempo recibida: $respuestaTiempo"
                     )
 
@@ -132,4 +156,5 @@ class TiempoViewModel(
             }
         }
     }
+
 }
