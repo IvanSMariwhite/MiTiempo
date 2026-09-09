@@ -20,6 +20,8 @@ import com.example.mitiempo.ui.theme.TiempoIcono
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun TablaPrevisionLocal(
@@ -62,7 +64,10 @@ fun TablaPrevisionLocal(
             for (dia in 0..2) {
 
                 Card(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White.copy(alpha = 0.45f)
+                    )
                 ) {
 
                     Column(
