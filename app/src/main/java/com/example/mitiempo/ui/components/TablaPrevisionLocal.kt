@@ -16,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.mitiempo.data.model.RespuestaTiempo
 import com.example.mitiempo.ui.theme.TiempoIcono
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 @Composable
 fun TablaPrevisionLocal(
@@ -27,7 +30,9 @@ fun TablaPrevisionLocal(
     val nombresDias = listOf(
         "HOY",
         "MAÑANA",
-        "PASADO MAÑANA"
+        obtenerNombreDia(
+            tiempoActual.hourly.time[48]
+        )
     )
 
     Column(
@@ -141,5 +146,22 @@ private fun PrevisionHoraLocal(
             text = "Viento: ${viento.toInt()} km/h"
         )
     }
+
+}
+
+private fun obtenerNombreDia(
+    fechaHora: String
+): String {
+
+    val fecha = LocalDate.parse(
+        fechaHora.substringBefore("T")
+    )
+
+    return fecha.dayOfWeek
+        .getDisplayName(
+            TextStyle.FULL,
+            Locale("es", "ES")
+        )
+        .uppercase(Locale("es", "ES"))
 
 }
