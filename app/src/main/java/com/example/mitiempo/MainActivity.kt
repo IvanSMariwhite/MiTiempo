@@ -32,6 +32,7 @@ import com.example.mitiempo.ui.theme.TiempoIcono
 import com.example.mitiempo.ubicacion.LocationHelper
 import com.example.mitiempo.viewmodel.TiempoViewModel
 import com.example.mitiempo.viewmodel.TiempoViewModelFactory
+import androidx.compose.foundation.layout.padding
 
 class MainActivity : ComponentActivity() {
     private val solicitarPermisoUbicacion =
@@ -107,7 +108,8 @@ fun WeatherScreen(
 
             Text(
                 text = "MiTiempo",
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.padding(top = 24.dp)
             )
 
             Spacer(

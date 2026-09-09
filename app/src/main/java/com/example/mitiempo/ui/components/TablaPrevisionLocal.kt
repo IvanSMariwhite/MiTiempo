@@ -22,6 +22,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 import androidx.compose.material3.CardDefaults
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun TablaPrevisionLocal(
@@ -53,7 +54,10 @@ fun TablaPrevisionLocal(
         Text(
             text = "Previsión",
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 12.dp),
+            textAlign = TextAlign.Center
         )
 
         Row(
