@@ -10,6 +10,8 @@ interface OpenMeteoApi {
     suspend fun obtenerTiempoActual(
         @Query("latitude") latitud: Double,
         @Query("longitude") longitud: Double,
-        @Query("current") datosActuales: String = "temperature_2m,weather_code,is_day"
+        @Query("current")
+        datosActuales: String =
+            "temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,is_day"
     ): RespuestaTiempo
 }

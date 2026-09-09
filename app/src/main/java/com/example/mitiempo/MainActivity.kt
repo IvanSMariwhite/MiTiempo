@@ -142,6 +142,14 @@ fun WeatherScreen(
                 )
 
                 Text(
+                    text = "Humedad: ${tiempoActual.current.relative_humidity_2m} %"
+                )
+
+                Text(
+                    text = "Viento: ${tiempoActual.current.wind_speed_10m} km/h"
+                )
+
+                Text(
                     text = "Código meteorológico: ${tiempoActual.current.weather_code}"
                 )
 
