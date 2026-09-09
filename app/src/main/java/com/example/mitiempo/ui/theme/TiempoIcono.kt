@@ -7,19 +7,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun TiempoIcono(
     weatherCode: Int,
-    isDay: Boolean
+    isDay: Boolean,
+    tamano: Dp? = null
 ) {
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
 
     val anchoPantalla = configuration.screenWidthDp
 
-    val tamanoIcono = (anchoPantalla * 0.25f)
+    // Si no se indica un tamaño, usamos el tamaño grande
+    // para el icono del tiempo actual.
+    val tamanoIcono = tamano ?: (anchoPantalla * 0.25f)
         .coerceIn(100f, 180f)
         .dp
 

@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.example.mitiempo.data.model.RespuestaTiempo
 import com.example.mitiempo.ui.theme.TiempoIcono
@@ -24,6 +25,14 @@ import java.util.Locale
 fun TablaPrevisionLocal(
     tiempoActual: RespuestaTiempo
 ) {
+
+    val configuration = LocalConfiguration.current
+
+    // Cada día ocupa aproximadamente un tercio de la pantalla.
+    // El tamaño del icono se adapta al tamaño disponible.
+    val tamanoIconoPrevision = (configuration.screenWidthDp * 0.08f)
+        .coerceIn(40f, 70f)
+        .dp
 
     val horas = listOf(8, 14, 20)
 
@@ -91,7 +100,8 @@ fun TablaPrevisionLocal(
                                     weatherCode =
                                         tiempoActual.hourly.weather_code[indice],
                                     isDay =
-                                        tiempoActual.hourly.is_day[indice] == 1
+                                        tiempoActual.hourly.is_day[indice] == 1,
+                                    tamanoIcono = tamanoIconoPrevision
                                 )
 
                                 Spacer(
@@ -104,7 +114,6 @@ fun TablaPrevisionLocal(
             }
         }
     }
-
 }
 
 @Composable
@@ -114,7 +123,8 @@ private fun PrevisionHoraLocal(
     humedad: Double,
     viento: Double,
     weatherCode: Int,
-    isDay: Boolean
+    isDay: Boolean,
+    tamanoIcono: androidx.compose.ui.unit.Dp
 ) {
 
     val horaMostrada = hora.substringAfter("T")
@@ -130,7 +140,8 @@ private fun PrevisionHoraLocal(
 
         TiempoIcono(
             weatherCode = weatherCode,
-            isDay = isDay
+            isDay = isDay,
+            tamano = tamanoIcono
         )
 
         Text(
@@ -146,7 +157,6 @@ private fun PrevisionHoraLocal(
             text = "Viento: ${viento.toInt()} km/h"
         )
     }
-
 }
 
 private fun obtenerNombreDia(
@@ -163,5 +173,4 @@ private fun obtenerNombreDia(
             Locale("es", "ES")
         )
         .uppercase(Locale("es", "ES"))
-
 }
