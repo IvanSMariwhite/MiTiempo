@@ -10,7 +10,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +22,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mitiempo.ui.components.TablaPrevisionLocal
 import com.example.mitiempo.ui.theme.Fondo
 import com.example.mitiempo.ui.theme.MiTiempoTheme
 import com.example.mitiempo.ui.theme.TiempoIcono
@@ -28,7 +34,6 @@ import com.example.mitiempo.viewmodel.TiempoViewModel
 import com.example.mitiempo.viewmodel.TiempoViewModelFactory
 
 class MainActivity : ComponentActivity() {
-
     private val solicitarPermisoUbicacion =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -93,7 +98,9 @@ fun WeatherScreen(
         }
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -101,6 +108,10 @@ fun WeatherScreen(
             Text(
                 text = "MiTiempo",
                 style = MaterialTheme.typography.headlineLarge
+            )
+
+            Spacer(
+                modifier = Modifier.height(16.dp)
             )
 
             // Icono meteorológico
@@ -155,6 +166,19 @@ fun WeatherScreen(
 
                 Text(
                     text = "¿Es de día?: ${tiempoActual.current.is_day == 1}"
+                )
+
+                Spacer(
+                    modifier = Modifier.height(32.dp)
+                )
+
+                // Previsión de los tres días
+                TablaPrevisionLocal(
+                    tiempoActual = tiempoActual
+                )
+
+                Spacer(
+                    modifier = Modifier.height(24.dp)
                 )
 
             } else {
