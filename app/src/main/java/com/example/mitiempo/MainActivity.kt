@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -26,15 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mitiempo.ui.components.TablaPrevisionLocal
+import com.example.mitiempo.ui.components.TiempoLocal
 import com.example.mitiempo.ui.theme.Fondo
 import com.example.mitiempo.ui.theme.MiTiempoTheme
-import com.example.mitiempo.ui.theme.TiempoIcono
 import com.example.mitiempo.ubicacion.LocationHelper
 import com.example.mitiempo.viewmodel.TiempoViewModel
 import com.example.mitiempo.viewmodel.TiempoViewModelFactory
-import androidx.compose.foundation.layout.padding
 
 class MainActivity : ComponentActivity() {
+
     private val solicitarPermisoUbicacion =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -106,6 +107,7 @@ fun WeatherScreen(
             verticalArrangement = Arrangement.Center
         ) {
 
+            // Título provisional. Más adelante será sustituido por el logo.
             Text(
                 text = "MiTiempo",
                 style = MaterialTheme.typography.headlineLarge,
@@ -116,65 +118,34 @@ fun WeatherScreen(
                 modifier = Modifier.height(16.dp)
             )
 
-            // Icono meteorológico
-            if (tiempoActual != null) {
-                TiempoIcono(
-                    weatherCode = tiempoActual.current.weather_code,
-                    isDay = tiempoActual.current.is_day == 1
-                )
-            }
-
-            // Mostramos la ciudad y la provincia
-            if (ubicacion != null) {
-
-                val direccion = ubicacion!!.address
-
-                val ciudad = direccion.city
-                    ?: direccion.town
-                    ?: direccion.village
-                    ?: direccion.municipality
-                    ?: "Ubicación desconocida"
-
-                val provincia = direccion.province
-                    ?: direccion.state_district
-                    ?: ""
-
-                Text(
-                    text = if (provincia.isNotEmpty()) {
-                        "$ciudad, $provincia"
-                    } else {
-                        ciudad
-                    }
-                )
-            }
-
             if (tiempoActual != null) {
 
-                Text(
-                    text = "Temperatura: ${tiempoActual.current.temperature_2m} °C"
-                )
+                val direccion = ubicacion?.address
 
-                Text(
-                    text = "Humedad: ${tiempoActual.current.relative_humidity_2m} %"
-                )
+                val ciudad = direccion?.let {
+                    it.city
+                        ?: it.town
+                        ?: it.village
+                        ?: it.municipality
+                        ?: "Ubicación desconocida"
+                } ?: "Ubicación desconocida"
 
-                Text(
-                    text = "Viento: ${tiempoActual.current.wind_speed_10m} km/h"
-                )
+                val provincia = direccion?.let {
+                    it.province
+                        ?: it.state_district
+                        ?: ""
+                } ?: ""
 
-                Text(
-                    text = "Código meteorológico: ${tiempoActual.current.weather_code}"
-                )
-
-                Text(
-                    text = "¿Es de día?: ${tiempoActual.current.is_day == 1}"
+                TiempoLocal(
+                    tiempoActual = tiempoActual,
+                    ciudad = ciudad,
+                    provincia = provincia
                 )
 
                 Spacer(
                     modifier = Modifier.height(32.dp)
                 )
 
-                // Previsión de los tres días
                 TablaPrevisionLocal(
                     tiempoActual = tiempoActual
                 )
